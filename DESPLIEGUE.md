@@ -30,25 +30,40 @@ La primera queda como administradora y desde ahí sumás a las demás en `/usuar
 
 ---
 
-## 1 · Subir el repo
+## Cómo quedó · 25/09/2026
 
-El repositorio ya está creado: `git@github.com:ysyry/coordenadaandina.git`.
-**Todavía no se subió nada**, a la espera del visto bueno. Cuando esté:
+| | |
+|---|---|
+| **Proyecto** | `coordenada-andina` en Railway |
+| **Servicios** | `areal` (la app) y `Postgres` |
+| **En internet** | https://areal-production.up.railway.app |
+| **Base** | Las doce migraciones aplicadas en el primer arranque |
+| **Repositorio** | `git@github.com:ysyry/coordenadaandina.git`, rama `main`, **público** |
+
+**La historia empieza en un commit.** Los 49 commits de armado local tenían nombres de las
+compañeras y el repositorio es público: quedaron en la rama local `historia-completa`, que
+no se sube. El `.env` y `documentos/` tampoco se versionan.
+
+**El deploy se hace por CLI** (`railway up`) hasta que se conecte la cuenta de GitHub a
+Railway. Con eso conectado, cada `git push` despliega solo.
+
+---
+
+## 1 · Subir el repo
 
 ```bash
 cd ~/Proyectos/areal
-git remote add origin git@github.com:ysyry/coordenadaandina.git
-git push -u origin main   # la rama local pasó a llamarse main
+git push origin main
 ```
-
-> El `.env` no se sube: está en `.gitignore`. Tampoco `static/docs/`, que son los documentos
-> institucionales.
 
 ---
 
 ## 2 · Railway
 
-1. **New Project → Deploy from GitHub repo → `coordenadaandina`.** Railway lee `railway.json` solo.
+Esto ya está hecho; queda acá por si hay que rehacerlo o montarlo en otra escuela.
+
+1. **New Project → Deploy from GitHub repo → `coordenadaandina`**, o desde la terminal:
+   `railway init` · `railway add --database postgres` · `railway add --service areal` · `railway up`.
 2. **New → Database → Add PostgreSQL.** Queda en el mismo proyecto.
 3. En el servicio de la app, pestaña **Variables**:
 
@@ -69,8 +84,12 @@ git push -u origin main   # la rama local pasó a llamarse main
 
 4. El primer deploy corre las migraciones solo, porque están en el `start`.
 
-5. **Cargar el catálogo curricular**, una sola vez. Desde tu máquina, con la URL pública de la
-   base que Railway muestra en la pestaña *Connect* de Postgres:
+5. **Abrir la base al exterior**, una sola vez: servicio **Postgres → Settings → Networking →
+   TCP Proxy**, puerto `5432`. Railway agrega entonces la variable `DATABASE_PUBLIC_URL`, que
+   es la que usan los comandos de acá abajo. Sin eso, desde tu máquina no se llega a la base:
+   `postgres.railway.internal` sólo existe dentro de Railway.
+
+6. **Cargar el catálogo curricular**, una sola vez. Desde tu máquina, con esa URL pública:
 
 ```bash
 cd ~/Proyectos/areal
@@ -78,7 +97,7 @@ DATABASE_URL="postgresql://…la URL pública de Railway…" npm run db:seed
 DATABASE_URL="postgresql://…la URL pública de Railway…" npm run db:estructura
 ```
 
-6. **Subir los documentos institucionales** (el GPS y las circulares), también una sola vez.
+7. **Subir los documentos institucionales** (el GPS y las circulares), también una sola vez.
    Están en `documentos/`, que no se versiona; si no hacés esto, los cinco enlaces propios
    del recursero dan 404:
 

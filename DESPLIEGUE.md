@@ -10,8 +10,8 @@ clicks en Railway y dos registros de DNS.
 | | |
 |---|---|
 | **Adaptador** | `@sveltejs/adapter-node`: el build genera `build/` y arranca con `node build` |
-| **Migraciones en el arranque** | `scripts/migrar.mjs` — usa el migrador de `drizzle-orm`, que es dependencia de producción. No depende de `drizzle-kit` |
-| **Config de Railway** | `railway.json`: build, start, healthcheck en la portada y reinicio ante fallo |
+| **Migraciones en el arranque** | `npm start` es `node scripts/migrar.mjs && node build`: cada deploy aplica lo que falte antes de levantar. Usa el migrador de `drizzle-orm`, que es dependencia de producción, y no `drizzle-kit` |
+| **Config de Railway** | `railway.json`: healthcheck en la portada y reinicio ante fallo. El arranque va en el `start` del `package.json`, que es lo que Railway ejecuta de verdad |
 | **Portada pública + login** | `/` es una presentación que puede ver cualquiera. Todo lo demás pide cuenta: correo y clave propios, sesión guardada en la base, 30 días |
 | **Usuarias** | Se dan de alta desde `/usuarias` (sólo quien administra) o desde la terminal con `npm run usuaria`. No hay registro abierto |
 | **Documentos institucionales** | No van al repositorio: viven en la base y se sirven en `/docs/<archivo>` sólo con sesión abierta. Se cargan con `npm run docs -- subir` |
@@ -67,7 +67,7 @@ git push -u origin main   # la rama local pasó a llamarse main
 > checklist— fallan con 403: SvelteKit no puede verificar de dónde viene el POST. Es el error
 > más común al pasar de local a servidor.
 
-4. El primer deploy corre las migraciones solo, por el `startCommand`.
+4. El primer deploy corre las migraciones solo, porque están en el `start`.
 
 5. **Cargar el catálogo curricular**, una sola vez. Desde tu máquina, con la URL pública de la
    base que Railway muestra en la pestaña *Connect* de Postgres:

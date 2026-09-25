@@ -1,0 +1,21 @@
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: areal-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: areal
+      POSTGRES_PASSWORD: areal_local
+      POSTGRES_DB: areal
+    ports:
+      - "5433:5432"
+    volumes:
+      - areal-datos:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U areal -d areal"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  areal-datos:

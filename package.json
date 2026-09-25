@@ -1,0 +1,49 @@
+{
+	"name": "areal",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev",
+		"build": "vite build",
+		"preview": "vite preview",
+		"prepare": "svelte-kit sync || echo ''",
+		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+		"db:up": "docker compose up -d && npm run db:wait",
+		"db:down": "docker compose down",
+		"db:logs": "docker compose logs -f db",
+		"db:generate": "drizzle-kit generate",
+		"db:migrate": "drizzle-kit migrate",
+		"db:studio": "drizzle-kit studio",
+		"docs": "tsx scripts/documentos.ts",
+		"db:seed": "tsx scripts/seed.ts",
+		"db:estructura": "tsx scripts/estructura.ts",
+		"db:reset": "docker compose down -v && npm run db:up && npm run db:migrate && npm run db:seed && npm run db:estructura",
+		"db:wait": "bash scripts/esperar-db.sh",
+		"start": "node build",
+		"usuaria": "tsx scripts/usuaria.ts"
+	},
+	"devDependencies": {
+		"@sveltejs/adapter-auto": "^7.0.1",
+		"@sveltejs/kit": "^2.63.0",
+		"@sveltejs/vite-plugin-svelte": "^7.1.2",
+		"@types/node": "^26.6.2",
+		"dotenv": "^17.4.2",
+		"drizzle-kit": "^0.31.10",
+		"svelte": "^5.56.1",
+		"svelte-check": "^4.6.0",
+		"tsx": "^4.23.13",
+		"typescript": "^6.0.3",
+		"vite": "^8.0.16"
+	},
+	"dependencies": {
+		"@sveltejs/adapter-node": "^5.5.7",
+		"drizzle-orm": "^0.45.2",
+		"postgres": "^3.4.9"
+	},
+	"description": "Herramienta de trabajo del área Matemática e Informática · Neuquén",
+	"engines": {
+		"node": ">=20"
+	}
+}

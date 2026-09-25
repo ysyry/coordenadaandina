@@ -1,0 +1,2 @@
+ALTER TABLE "nudo" ADD COLUMN "continua_de" uuid;--> statement-breakpoint
+ALTER TABLE "nudo" ADD CONSTRAINT "nudo_continua_de_nudo_id_fk" FOREIGN KEY ("continua_de") REFERENCES "public"."nudo"("id") ON DELETE no action ON UPDATE no action;

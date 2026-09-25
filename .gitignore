@@ -1,0 +1,31 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+/.svelte-kit
+/build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Documentos institucionales: se traen con scripts/traer-docs.sh y se suben a la base
+# con `npm run docs -- subir`. No se versionan.
+documentos/
+
+# Build de producción
+/build
+

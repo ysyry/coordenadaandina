@@ -34,6 +34,17 @@ let ultimaLimpieza = 0;
  * (`npm run usuaria`), no hay registro abierto.
  */
 export const handle: Handle = async ({ event, resolve }) => {
+	// Una sola dirección. `ORIGIN` es la raíz, así que un formulario enviado desde
+	// `www` daría 403: antes de nada, se manda a la raíz. Se mira la cabecera `host`
+	// y no `event.url`, porque con `ORIGIN` puesto adapter-node arma la URL a partir
+	// de esa variable y ahí el `www` ya no aparece. El 308 conserva el método, así
+	// que un POST que llegue a `www` también termina bien.
+	if ((event.request.headers.get('host') ?? '').startsWith('www.')) {
+		const raiz = new URL(event.url);
+		if (raiz.hostname.startsWith('www.')) raiz.hostname = raiz.hostname.slice(4);
+		throw redirect(308, raiz.toString());
+	}
+
 	const token = event.cookies.get(COOKIE);
 	event.locals.usuario = await quienEs(token);
 

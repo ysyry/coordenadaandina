@@ -36,7 +36,7 @@ La primera queda como administradora y desde ahí sumás a las demás en `/usuar
 |---|---|
 | **Proyecto** | `coordenada-andina` en Railway |
 | **Servicios** | `areal` (la app) y `Postgres` |
-| **En internet** | https://areal-production.up.railway.app |
+| **En internet** | **https://coordenadaandina.ar** · `www` redirige a la raíz con 308 · el dominio de Railway, `areal-production.up.railway.app`, sigue respondiendo pero los formularios ahí dan 403, porque `ORIGIN` es el dominio propio |
 | **Base** | Las doce migraciones aplicadas en el primer arranque |
 | **Repositorio** | `git@github.com:ysyry/coordenadaandina.git`, rama `main`, **público** |
 
@@ -107,7 +107,18 @@ DATABASE_URL="postgresql://…la URL pública de Railway…" npm run docs -- sub
 
 ---
 
-## 3 · El dominio
+## 3 · El dominio · hecho el 25/09/2026
+
+DNS en **Cloudflare** (cuenta de Flor), delegado desde **NIC.ar** por Trámites a Distancia
+→ *Delegaciones* → los dos nameservers que dio Cloudflare, sin IP en las columnas IPv4/IPv6.
+Tardó alrededor de media hora en propagar. En Cloudflare, cuatro registros: los dos CNAME que
+pidió Railway —raíz y `www`, **los dos en gris, DNS only**— y los dos TXT `_railway-verify`.
+Cloudflare aplana el CNAME de la raíz, que es exactamente lo que NIC.ar no permite hacer solo.
+El certificado de Let's Encrypt lo emite Railway sin que haya que hacer nada.
+
+Lo de abajo es el paso a paso, por si hay que repetirlo en otra escuela.
+
+### Cómo se hizo
 
 Railway da un dominio propio (algo como `areal-production.up.railway.app`). Para usar
 **coordenadaandina.ar** hay un problema clásico: **en el dominio raíz no se puede poner un
